@@ -1,0 +1,64 @@
+﻿@model UserInformationViewModel
+
+@if(Model != null)
+{
+    <div class="user-option user-option--account">
+        <a asp-area="UserPanel" asp-controller="UserPanel" asp-action="index" class="user-option-btn user-option-btn--account">
+            <i class="ri-user-fill icon"></i>
+            <i class="ri-arrow-down-s-fill icon fs-7 text-muted"></i>
+        </a>
+        <div class="user-option--dropdown user-option--dropdown-right">
+            <div class="profile-user-info ui-box">
+                <div class="profile-detail">
+                    <div class="d-flex align-items-center">
+                        <div class="profile-avatar me-3">
+                            <img src="@(Model.ImageName != null ? PathExtension.UserAvatarThumb+Model.ImageName:PathExtension.DefaultAvatar)" alt="avatar">
+                        </div>
+                        <div class="profile-info">
+                            <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
+                                @Model.FullName
+                            </a>
+                            <div class="text-muted fs-7 fw-bold">
+                                @(Model.Mobile ?? "شماره همراه ثبت نشده است")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-options">
+                        <ul>
+                            <li>
+                                <span class="label">کیف پول</span>
+                                <span class="detail">
+                                    <span class="d-block">@Model.WalletBalance.ToString("#,0") <span class="currency fs-7 fw-bold">هزار تومان</span></span>
+                                    <a href="#" class="link border-bottom-0 text-info fs-7 fw-bold">
+                                        افزایش
+                                        موجودی <i class="ri-arrow-left-s-line"></i>
+                                    </a>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="label">باشگاه مشتریان</span>
+                                <span class="detail">
+                                    <span class="d-block">@Model.Score <span class="score text-muted fs-7">امتیاز</span></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="nav nav-items-with-icon flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="UserPanel" asp-controller="UserPanel" asp-action="index">
+                            <i class="nav-link-icon ri-user-line"></i> اطلاعات
+                            حساب
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout">
+                            <i class="nav-link-icon ri-logout-box-r-line"></i>
+                            خروج
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

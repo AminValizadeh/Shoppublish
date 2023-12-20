@@ -1,0 +1,54 @@
+﻿@model AddTicketViewModel
+@{
+    ViewData["Title"] = "AddTicket";
+}
+
+<div class="row mb-5">
+    @await Component.InvokeAsync("UserSidebar")
+    <div class="col-xl-9 col-lg-8 col-md-7">
+        <div class="row">
+            <div class="col-12">
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">
+                        ایجاد تیکت جدید
+                    </div>
+                    <div class="ui-box-subtitle">
+                        فرم زیر را پر کنید (توضیحات کامل تر روند پاسخ دهی را کوتاه تر
+                        می
+                        کند.)
+                    </div>
+                    <div class="ui-box-content">
+                        <form asp-area="UserPanel" asp-controller="Ticket" asp-action="AddTicket">
+                            <div class="form-element-row mb-3">
+                                <label>عنوان</label>
+                                <input type="text" asp-for="Title" class="form-control" placeholder="عنوان">
+                                <span class="text-danger" asp-validation-for="Title" style="margin-bottom:10px; display:block;"></span>
+                            </div>
+
+                            <div class="form-element-row mb-3">
+                                <label>بخش مورد نظر</label>
+                                <select class="form-control" asp-for="TicketSection" asp-items="@(Html.GetEnumSelectList<TicketSection>())"></select>
+                                <span class="text-danger" asp-validation-for="TicketSection" style="margin-bottom:10px; display:block;"></span>
+                            </div>
+
+                            <div class="form-element-row mb-3">
+                                <label>اولویت</label>
+                                <select class="form-control" asp-for="TicketPriority" asp-items="@(Html.GetEnumSelectList<TicketPriority>())"></select>
+                                <span class="text-danger" asp-validation-for="TicketPriority" style="margin-bottom:10px; display:block;"></span>
+                            </div>
+
+                            <div class="form-element-row mb-3">
+                                <label>متن پیام</label>
+                                <textarea class="form-control" asp-for="Text" ckeditor="1" style="margin-bottom:0;" rows="10"></textarea>
+                                <span class="text-danger" asp-validation-for="Text" style="margin-bottom:10px; display:block;"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary px-4">ثبت و ارسال <i class="ri-ball-pen-line ms-2"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

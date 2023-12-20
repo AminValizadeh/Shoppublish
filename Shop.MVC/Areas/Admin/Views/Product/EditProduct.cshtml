@@ -1,0 +1,110 @@
+﻿@model UpdateProductViewModel
+@{
+    ViewData["Title"] = "ویرایش محصول";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">ویرایش محصول</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#ImageProduct").change(function () {
+            readURL(this);
+        });
+    </script>
+}
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            تصویر محصول
+        </div>
+        <img id="imgAvatar" src="@PathExtension.ProductImageThumb@Model.ImageName" width="150" height="150" />
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        <form asp-area="Admin" asp-controller="Product" asp-action="EditProduct" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="ImageName" />
+            <div class="form-group">
+                <label>عنوان</label>
+                <input class="form-control" asp-for="Title">
+                <span class="text-danger" asp-validation-for="Title" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>قیمت محصول</label>
+                <input class="form-control" asp-for="Price">
+                <span class="text-danger" asp-validation-for="Price" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>تصویر محصول</label>
+                <input class="form-control" asp-for="ImageProduct">
+                <span class="text-danger" asp-validation-for="ImageProduct" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>زیر گروه</label>
+                <select class="form-control" asp-for="CategoryId" asp-items="@(ViewData["Categories"] as SelectList)"></select>
+                <span class="text-danger" asp-validation-for="CategoryId" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    توضیحات محصول
+                </label>
+                <textarea class="form-control" asp-for="Description" ckeditor="1" style="margin-bottom:0;" rows="10"></textarea>
+                <span class="text-danger" asp-validation-for="Description" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    ویژگی های محصول
+                </label>
+                <textarea class="form-control" asp-for="Feature" ckeditor="2s" style="margin-bottom:0;" rows="10"></textarea>
+                <span class="text-danger" asp-validation-for="Feature" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">ویرایش محصول</button>
+        </form>
+    </div>
+</div>
+

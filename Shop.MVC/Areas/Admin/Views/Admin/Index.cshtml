@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Admin";
+    List<ChartBestSellerProductViewModel> productBestSellerLastTenDays = ViewData["ProductBestSellerLastTenDays"] as List<ChartBestSellerProductViewModel>;
+    List<ChartBestSellerProductViewModel> productBestSellerCurrentMonth = ViewData["ProductBestSellerCurrentMonth"] as List<ChartBestSellerProductViewModel>;
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">داشبورد</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section FooterSection{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('chartProductBestSellerLastTenDays');
+        const ctx2 = document.getElementById('chartProductBestSellerCurrentMonth');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+        @foreach (var item in productBestSellerLastTenDays)
+        {
+            @Html.Raw($"'{item.ProductName}',")
+        }
+                        ],
+                datasets: [{
+                    label: 'تعداد فروش ',
+                    data: [
+        @foreach (var item in productBestSellerLastTenDays)
+        {
+            @Html.Raw($"'{item.SalesNumber}',")
+        }
+                            ],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: [
+        @foreach (var item in productBestSellerCurrentMonth)
+        {
+            @Html.Raw($"'{item.ProductName}',")
+        }
+                                ],
+                datasets: [{
+                    label: 'تعداد فروش ',
+                    data: [
+        @foreach (var item in productBestSellerCurrentMonth)
+        {
+            @Html.Raw($"'{item.SalesNumber}',")
+        }
+                                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+
+            <div class="databox-bottom">
+                <div class="databox-row row-12">
+                    @*<div id="dashboard-pie-chart-sources" class="chart"></div>*@
+                    <h4 style="text-align:center">
+                        تعداد فروش 10 روز آخر
+                    </h4>
+                    <canvas id="chartProductBestSellerLastTenDays" style="margin:auto"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+            <div class="databox-bottom">
+                <div class="databox-row row-12">
+                    @*<div id="dashboard-pie-chart-sources" class="chart"></div>*@
+                    <h4 style="text-align:center">
+                        تعداد فروش این ماه
+                    </h4>
+                    <canvas id="chartProductBestSellerCurrentMonth" style="margin:auto"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

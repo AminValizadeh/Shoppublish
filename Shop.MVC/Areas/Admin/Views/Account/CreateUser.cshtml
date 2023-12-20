@@ -1,0 +1,113 @@
+﻿@model CreateUserByAdminViewModel
+@{
+    ViewData["Title"] = "CreateUser";
+    var Roles = ViewData["Roles"] as List<Role>;
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">ایجاد کاربر</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#Avatar").change(function () {
+            readURL(this);
+        });
+    </script>
+}
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            تصویر کاربر
+        </div>
+        <img id="imgAvatar" src="@PathExtension.DefaultAvatar" width="150" height="150" />
+    </div>
+</div>
+
+<div class="col-xs-8">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            ایجاد کاربر
+        </div>
+        <form asp-area="Admin" asp-controller="Account" asp-action="CreateUser" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>ایمیل</label>
+                <input class="form-control" asp-for="Email">
+                <span asp-validation-for="Email"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label>نام و نام خانوادگی</label>
+                <input class="form-control" asp-for="FullName">
+                <span asp-validation-for="FullName"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label>کلمه عبور</label>
+                <input type="password" class="form-control" asp-for="Password">
+                <span asp-validation-for="Password"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label>موبایل</label>
+                <input class="form-control" asp-for="Mobile">
+                <span asp-validation-for="Mobile"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label>انتخاب عکس</label>
+                <input asp-for="Avatar" type="file" class="form-control" />
+            </div>
+            <hr />
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" asp-for="IsAdmin" class="colored-success">
+                    <span class="text">دسترسی ادمین</span>
+                </label>
+            </div>
+            <hr />
+            <div class="form-group" style="background-color:beige; padding:15px;">
+                <label>انتخاب نقش کاربر</label>
+                @foreach (var item in Roles)
+                {
+                    <div class="checkbox">
+                        <label>
+                            <input class="colored-success" type="checkbox" name="SelectedRoles" value="@item.Id">
+                            <span class="text">
+                                @item.RoleTitle
+                            </span>
+                        </label>
+                    </div>
+                }
+            </div>
+            <button type="submit" class="btn btn-success btn-block">ثبت</button>
+        </form>
+    </div>
+</div>

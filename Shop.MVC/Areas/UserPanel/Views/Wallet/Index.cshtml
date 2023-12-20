@@ -1,0 +1,77 @@
+﻿@model List<Wallet>
+@{
+    ViewData["Title"] = "کیف پول";
+}
+
+<div class="row mb-5">
+    @await Component.InvokeAsync("UserSidebar")
+    <div class="col-xl-9 col-lg-8 col-md-7">
+        <div class="ui-box bg-white mb-5">
+            <div class="ui-box-title align-items-center justify-content-between">
+                تراکنش های کیف پول
+                <form asp-area="UserPanel" asp-controller="Wallet" asp-action="ChargeWallet" method="post">
+                    <div class="form-element-row mb-3">
+                        <label class="label fs-7">
+                            مبلغ (مبلغ را به تومان وارد کنید)
+                        </label>
+                        <input id="Amount" name="Amount" type="number" class="form-control" placeholder="مبلغ">
+                    </div>
+                    <button type="submit" class="btn btn-outline-light">شارژ کیف پول <i class="ri-add-line ms-2"></i></button>
+                </form>
+            </div>
+            @if (Model != null && Model.Any())
+            {
+                <div class="ui-box-content">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>زمان پرداخت</th>
+                                    <th>قیمت</th>
+                                    <th>نوع تراکنش</th>
+                                    <th>موفقیت پرداخت</th>
+                                    <th>توضیحات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var wallet in Model)
+                                {
+                                    <tr>
+                                        <td class="fa-num">@wallet.CreateDate.ToShamsi()</td>
+                                        <td class="fa-num">@wallet.Price.ToString("#,0")</td>
+                                        <td class="fa-num">
+                                            <span class="badge rounded-pill
+                                                @(@wallet.TransactionType == TransactionType.Deposit ? "bg-success" : "bg-danger")">
+                                                @wallet.TransactionType.GetEnumName()
+                                            </span>
+                                        </td>
+                                        <td class="fa-num">
+                                            <span class="badge rounded-pill
+                                                @(wallet.IsPaid ? "bg-success" : "bg-danger")">
+                                                @(wallet.IsPaid ? "پرداخت شده" : "عدم پرداخت")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @wallet.Description
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="ui-box-empty-content">
+                    <div class="ui-box-empty-content-icon">
+                        <img src="/Template/theme-assets/images/theme/orders.svg" alt="">
+                    </div>
+                    <div class="ui-box-empty-content-message">
+                        تراکنشی تا به الان نداشته اید
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

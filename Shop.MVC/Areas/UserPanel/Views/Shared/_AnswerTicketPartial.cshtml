@@ -1,0 +1,10 @@
+﻿@model AnswerTicketViewModel
+
+<form method="post" asp-area="UserPanel" asp-controller="Ticket" asp-action="AddNewAnswer">
+    <input type="hidden" asp-for="Id" />
+    <textarea asp-for="Text" ckeditor="1"></textarea>
+
+    <button type="submit" class="btn btn-success mt-3">
+        ارسال پاسخ
+    </button>
+</form>

@@ -1,0 +1,64 @@
+﻿
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2962ff">
+    <meta name="msapplication-navbutton-color" content="#2962ff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2962ff">
+    <title>YektaKala | home v1</title>
+    <partial name="_HeaderReferences" />
+    @RenderSection("Styles",false)
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.themes.min.css" />
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+        <partial name="_HeaderSection" />
+        <!-- start of page-content -->
+        <main class="page-content">
+            <div class="container">
+                @RenderBody()
+            </div>
+        <partial name="_Modal" />
+        </main>
+        <!-- end of page-content -->
+        <partial name="_FooterSection" />
+    </div>
+
+    <partial name="_FooterReferences" />
+    @RenderSection("Scripts",false)
+    <partial name="_SiteMessages" />
+    <script src="/lib/EasyAutocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script>
+
+        var options = {
+            url: function (phrase) {
+                return "/product-autocomplete?title=" + phrase;
+            },
+            getValue: function (element) {
+                return element.title;
+            },
+            list: {
+                match: {
+                    enabled: true
+                },
+                onSelectItemEvent: function () {
+                    var value = $("#TitleSearch").getSelectedItemData().title;
+
+                    $("#Title").val(value).trigger("change");
+                }
+            },
+            theme: "square"
+        };
+
+        $("#TitleSearch").easyAutocomplete(options);
+    </script>
+</body>
+
+</html>

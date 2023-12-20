@@ -1,0 +1,92 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "محصولات خریداری شده";
+}
+
+<div class="row mb-5">
+    @await Component.InvokeAsync("UserSidebar")
+    <div class="col-xl-9 col-lg-8 col-md-7">
+        <div class="ui-box bg-white">
+            <div class="ui-box-title">تاریخچه سفارشات</div>
+            <div class="ui-box-content">
+                <!-- start of order-tabs -->
+                <div class="order-tabs">
+                    <ul class="nav nav-tabs fa-num" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link d-inline-flex align-items-center active" id="canceled-tab" data-bs-toggle="tab" data-bs-target="#canceled" type="button" role="tab" aria-controls="canceled" aria-selected="true">
+                                خرید های انجام شده
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <!-- end of order-tabs -->
+                <!-- start of tab-content -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- start of tab-pane -->
+                    <div class="tab-pane fade active show" id="canceled" role="tabpanel" aria-labelledby="canceled-tab">
+                        @if (Model != null && Model.Any())
+                        {
+                            <div class="user-order-items">
+                                @foreach (var order in Model)
+                                {
+                                    <div class="user-order-item">
+                                        <div class="user-order-item-header">
+                                            <div class="mb-3">
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-lg-4 col-md-auto col-sm-6">
+                                                        <span class="user-order-meta fa-num">@order.CreateDate.ToShamsi()</span>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-4 col-md-auto col-sm-6">
+                                                        <span class="user-order-meta">@order.TracingCode</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted fw-bold">مبلغ کل:</span>
+                                                <span class="fw-bold fa-num">
+                                                    @order.FinalPrice.ToString("#,0")
+                                                    <span>تومان</span>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted fw-bold">مبلغ تخفیف داد شده:</span>
+                                                <span class="fw-bold fa-num">
+                                                    @order.FinalDiscount.ToString("#,0")
+                                                    <span>تومان</span>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span class="text-muted fw-bold">مبلغ کل با تخفیف (مبلغ پرداخت شده):</span>
+                                                <span class="fw-bold fa-num">
+                                                    @order.FinalPrice.ToString("#,0")
+                                                    <span>تومان</span>
+                                                </span>
+                                            </div>
+                                            <a asp-area="UserPanel" asp-controller="Order" asp-action="DetailPurchasedProducts"
+                                               asp-route-orderId="@order.Id" class="btn btn-link fw-bold user-order-detail-link">
+                                                جزئیات
+                                                سفارش <i class="ri-arrow-left-s-fill"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="ui-box-empty-content">
+                                <div class="ui-box-empty-content-icon">
+                                    <img src="/Template/theme-assets/images/theme/orders.svg" alt="">
+                                </div>
+                                <div class="ui-box-empty-content-message">
+                                    تا به الان خریدی نداشته اید
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- end of tab-content -->
+            </div>
+        </div>
+    </div>
+</div>

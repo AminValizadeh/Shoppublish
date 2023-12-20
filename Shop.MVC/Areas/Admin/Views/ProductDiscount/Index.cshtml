@@ -1,0 +1,96 @@
+﻿@model FilterProductDiscountViewModel
+@{
+    ViewData["Title"] = "لیست کد های تخفیف";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            فیلتر
+        </div>
+        <form asp-area="Admin" asp-controller="Product" asp-action="Index" method="get">
+            <input type="hidden" asp-for="PageId" />
+            <div class="form-group">
+                <label>کد تخفیف</label>
+                <input class="form-control" asp-for="DiscountCode">
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">فیلتر</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        @if (Model.ProductDiscounts != null && Model.ProductDiscounts.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>کد تخفیف</th>
+                        <th>مقدار تخفیف</th>
+                        <th>از تاریخ</th>
+                        <th>تا تاریخ</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.ProductDiscounts)
+                    {
+                        <tr>
+                            <td>@product.DiscountCode</td>
+                            <td>@product.Percentage</td>
+                            <td>@product.StartTime.ToShamsi()</td>
+                            <td>@product.EndTime.ToShamsi()</td>
+                            <td>
+                                @if (!product.IsDelete)
+                                {
+                                    <a asp-area="Admin" asp-controller="ProductDiscount"
+                           asp-action="EditProductDiscount" asp-route-productDiscountId="@product.Id" class="btn btn-info my-1">ویرایش تخفیف</a>
+                                    <a asp-area="Admin" asp-controller="ProductDiscount"
+                           asp-action="DeleteProductDiscount" asp-route-productDiscountId="@product.Id" class="btn btn-danger my-1">حذف تخفیف</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">این محصول حذف شده است</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer">
+            <partial name="_AdminPagingPartial" model="@Model.GetCurrentPaging()" />
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,55 @@
+﻿@model CreateProductColorViewModel
+@{
+    ViewData["Title"] = $"ایجاد رنگ برای محصول : {Model.ProductTitle}";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-8">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        <form asp-area="Admin" asp-controller="ProductColor" asp-action="CreateProductColor" method="post">
+            <input type="hidden" asp-for="ProductId" />
+            <div class="form-group">
+                <label>نام رنگ</label>
+                <input class="form-control" asp-for="ColorName">
+                <span class="text-danger" asp-validation-for="ColorName" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <label>انتخاب رنگ</label>
+                <input class="form-control" asp-for="ColorCode" type="color">
+                <span class="text-danger" asp-validation-for="ColorName" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <label>تعداد</label>
+                <input class="form-control" asp-for="Count">
+                <span class="text-danger" asp-validation-for="Count" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">ثبت رنگ برای محصول</button>
+        </form>
+    </div>
+</div>
+

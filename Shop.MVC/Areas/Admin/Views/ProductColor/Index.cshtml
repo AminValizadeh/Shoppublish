@@ -1,0 +1,81 @@
+﻿@model ProductColorViewModel
+@{
+    ViewData["Title"] = $"رنگ های محصول : {Model.ProductTitle}";
+}
+
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        @if (Model.ProductColors != null && Model.ProductColors.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>رنگ محصول</th>
+                        <th>تعداد رنگ</th>
+                        <th>تاریخ ایجاد</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var productColor in Model.ProductColors)
+                    {
+                        <tr>
+                            <td>
+                                @productColor.ColorName
+                            </td>
+                            <td>
+                                @productColor.Count
+                            </td>
+                            <td>
+                                @productColor.CreateDate.ToShamsi()
+                            </td>
+                            <td>
+                                @if (!productColor.IsDelete)
+                                {
+                                    <a asp-area="Admin" asp-controller="ProductColor"
+                           asp-action="EditProductColor" asp-route-productColorId="@productColor.Id" class="btn btn-info my-1">ویرایش رنگ</a>
+                                    <a asp-area="Admin" asp-controller="ProductColor"
+                           asp-action="DeleteProductColor" asp-route-productColorId="@productColor.Id" asp-route-productId="@productColor.ProductId" class="btn btn-danger my-1">حذف رنگ</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">این رنگ حذف شده است</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer"></div>
+    </div>
+</div>
+
+
+

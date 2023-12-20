@@ -1,0 +1,186 @@
+﻿ <!-- Page Sidebar -->
+<div class="page-sidebar" id="sidebar">
+    <!-- Page Sidebar Header-->
+    <div class="sidebar-header-wrapper">
+        <input type="text" class="searchinput" />
+        <i class="searchicon fa fa-search"></i>
+        <div class="searchhelper">به جستجوی صفحات، گزارشات، پیام ها و ایمیل خود بپردازید</div>
+    </div>
+    <!-- /Page Sidebar Header -->
+    <!-- Sidebar Menu -->
+    <ul class="nav sidebar-menu">
+        <!--Dashboard-->
+        <li>
+            <a asp-area="Admin" asp-controller="Admin" asp-action="Index">
+                <i class="menu-icon glyphicon glyphicon-home"></i>
+                <span class="menu-text"> داشبورد </span>
+            </a>
+        </li>
+
+        <!--UI Elements-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-user"></i>
+                <span class="menu-text">مدیریت کاربران</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="Account" asp-action="Index">
+                        <span class="menu-text">
+                            لیست کاربران
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Account" asp-action="CreateUser">
+                        <span class="menu-text">
+                            ایجاد کاربر
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-envelope-o"></i>
+                <span class="menu-text">مدیریت تیکت ها</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="Ticket" asp-action="Index">
+                        <span class="menu-text">
+                            تیکت ها
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Ticket" asp-action="TicketCreate">
+                        <span class="menu-text">
+                            ایجاد تیکت
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-align-right"></i>
+                <span class="menu-text">مدیریت محصولات</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index">
+                        <span class="menu-text">
+                            محصول ها
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="CreateProduct">
+                        <span class="menu-text">
+                            ایجاد محصول
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-align-right"></i>
+                <span class="menu-text">مدیریت دسته بندی ها</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="ProductCategory" asp-action="Index">
+                        <span class="menu-text">
+                            لیست دسته بندی ها
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="ProductCategory" asp-action="CreateProductCategory">
+                        <span class="menu-text">
+                            ایجاد دسته بندی
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-align-right"></i>
+                <span class="menu-text">مدیریت کد تخفیف ها</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="ProductDiscount" asp-action="Index">
+                        <span class="menu-text">
+                            لیست کد تخفیف
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="ProductDiscount" asp-action="CreateProductDiscount">
+                        <span class="menu-text">
+                            ایجاد کد تخفیف
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-align-right"></i>
+                <span class="menu-text">مدیریت نقش ها و سطج دسترسی</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="RolePermission" asp-action="Index">
+                        <span class="menu-text">
+                            لیست نقش ها
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="RolePermission" asp-action="CreateRolePermission">
+                        <span class="menu-text">
+                            ایجاد نقش جدید
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+    <!-- /Sidebar Menu -->
+</div>
+<!-- /Page Sidebar -->s

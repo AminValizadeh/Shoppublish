@@ -1,0 +1,92 @@
+﻿@model AddRoleViewModel
+@{
+    ViewData["Title"] = "ایجاد نقش جدید";
+    List<Permission> permissions = ViewData["Permissions"] as List<Permission>;
+}
+
+@section HeaderSection{
+    <style>
+        input[type=checkbox], input[type=radio]{
+            opacity : 1;
+            position: static;
+            margin:5px;
+        }
+    </style>
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<form asp-area="Admin" asp-controller="RolePermission" asp-action="CreateRolePermission" method="post">
+    <div class="col-xs-4">
+        <div class="well with-header">
+            <div class="header bordered-sky">
+                دسترسی ها
+            </div>
+            <div>
+                <ul>
+                    @foreach (var item in permissions.Where(p => p.ParentId == null))
+                    {
+                        <li>
+                            <input type="checkbox" name="SelectedPermission" value="@item.Id" />@item.PermissionTitle
+                            @if (permissions.Any(s => s.ParentId == item.Id))
+                            {
+                                <ul>
+                                    @foreach (var sub in permissions.Where(p => p.ParentId == item.Id))
+                                    {
+                                        <li>
+                                            <input type="checkbox" name="SelectedPermission" value="@sub.Id" />@sub.PermissionTitle
+                                            @if (permissions.Any(s => s.ParentId == sub.Id))
+                                            {
+                                                <ul>
+                                                    @foreach (var sub2 in permissions.Where(p => p.ParentId == sub.Id))
+                                                    {
+                                                        <li>
+                                                            <input type="checkbox" name="SelectedPermission" value="@sub2.Id" />@sub2.PermissionTitle
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-8">
+        <div class="well with-header">
+            <div class="header bordered-sky">
+               عنوان نقش
+            </div>
+
+            <div class="form-group">
+                <label>عنوان نقش</label>
+                <input class="form-control" asp-for="RoleTitle">
+                <span class="text-danger" asp-validation-for="RoleTitle"></span>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">ثبت</button>
+
+        </div>
+    </div>
+</form>

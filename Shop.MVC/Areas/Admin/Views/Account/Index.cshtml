@@ -1,0 +1,106 @@
+﻿@model FilterUsersInAdminViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">داشبورد</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+}
+
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            فیلتر
+        </div>
+        <form asp-area="Admin" asp-controller="Account" asp-action="Index" method="get" id="filter-form">
+            <input type="hidden" asp-for="PageId" />
+            <div class="form-group">
+                <label>ایمیل</label>
+                <input class="form-control" asp-for="Email">
+            </div>
+            <hr />
+            <div class="form-group">
+                <label>موبایل</label>
+                <input class="form-control" asp-for="Mobile">
+            </div>
+            <button type="submit" class="btn btn-success btn-block">فیلتر</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        <a class="btn btn-outline-info mb-3" asp-area="Admin" asp-controller="Account" asp-action="CreateUser">ایجاد کاربر</a>
+        @if (Model.Users != null && Model.Users.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            تصویر کاربر
+                        </th>
+                        <th>
+                            نام کاربر
+                        </th>
+                        <th>
+                            ایمیل کاربر
+                        </th>
+                        <th>
+                            دستورات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr id="ajax-url-item-@user.Id">
+                            <td>
+                                <img src="@(user.ImageName != null ? PathExtension.UserAvatarThumb + user.ImageName:PathExtension.DefaultAvatar )" width="100" />
+                            </td>
+                            <td>
+                                @user.FullName
+                            </td>
+                            <td>
+                                @user.Email
+                            </td>
+                            <td>
+                                <a class="btn btn-success" asp-area="Admin" asp-controller="Account" asp-action="UpdateUser" asp-route-id="@user.Id">ویرایش کاربر</a>
+                                @if (user.IsDelete == false)
+                                {
+                                    <a class="btn btn-danger" asp-area="Admin" asp-controller="Account" asp-action="DeleteUser" asp-route-id="@user.Id">حذف کاربر</a>
+
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer">
+            <partial name="_AdminPagingPartial" model="@Model.GetCurrentPaging()" />
+        </div>
+    </div>
+</div>

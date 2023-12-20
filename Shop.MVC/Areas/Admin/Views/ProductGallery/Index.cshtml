@@ -1,0 +1,75 @@
+﻿@model ProductGalleryViewModel
+@{
+    ViewData["Title"] = $"گالری محصول : {Model.ProductTitle}";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        @if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>عکس محصول</th>
+                        <th>تاریخ ایجاد</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var productGallery in Model.ProductGalleries)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@PathExtension.ProductImageThumb@productGallery.ImageName" alt="@productGallery.ImageName" />
+                            </td>
+                            <td>
+                                @productGallery.CreateDate.ToShamsi()
+                            </td>
+                            <td>
+                                @if (!productGallery.IsDelete)
+                                {
+                                    <a asp-area="Admin" asp-controller="ProductGallery"
+                           asp-action="EditProductGallery" asp-route-productGalleryId="@productGallery.Id" class="btn btn-info my-1">ویرایش تصویر</a>
+                                    <a asp-area="Admin" asp-controller="ProductGallery"
+                           asp-action="DeleteProductGallery" asp-route-productGalleryId="@productGallery.Id" asp-route-productId="@productGallery.ProductId" class="btn btn-danger my-1">حذف تصویر</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">این محصول حذف شده است</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer"></div>
+    </div>
+</div>
+
+

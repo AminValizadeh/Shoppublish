@@ -1,0 +1,106 @@
+﻿@model AddTicketByAdminViewModel
+@{
+    ViewData["Title"] = "ایجاد تیکت";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">ایجاد تیکت</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section headerSection {
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.themes.min.css" />
+}
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+    <script src="/lib/EasyAutocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script>
+
+                var options = {
+                    url: function (phrase) {
+                return "/admin/ticket/user-autocomplete?email=" + phrase;
+                    },
+                    getValue: function (element) {
+                        return element.email;
+                    },
+                    list: {
+                        match: {
+                            enabled: true
+                        },
+                        onSelectItemEvent: function () {
+                    var value = $("#UserEmail").getSelectedItemData().id;
+
+                    $("#UserId").val(value).trigger("change");
+                        }
+                    },
+                    theme: "square"
+                };
+
+        $("#UserEmail").easyAutocomplete(options);
+    </script>
+
+}
+
+
+<div class="col-xs-12">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            ارسال تیکت
+        </div>
+        <form asp-area="Admin" asp-controller="Ticket" asp-action="TicketCreate" method="post">
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label>ایمیل کاربر مورد نظر</label>
+                <input class="form-control" id="UserEmail">
+                <span class="text-danger" asp-validation-for="UserId" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <label>عنوان</label>
+                <input class="form-control" asp-for="Title">
+                <span class="text-danger" asp-validation-for="Title" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>بخش مورد نظر</label>
+                <select class="form-control" asp-for="TicketSection" asp-items="@(Html.GetEnumSelectList<TicketSection>())"></select>
+                <span class="text-danger" asp-validation-for="TicketSection" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    اولویت ها
+                </label>
+                <select class="form-control" asp-for="TicketPriority" asp-items="@(Html.GetEnumSelectList<TicketPriority>())"></select>
+                <span class="text-danger" asp-validation-for="TicketPriority" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+
+            <div class="form-element-row mb-3">
+                <label>
+                    متن پیام
+                </label>
+                <textarea class="form-control" asp-for="Text" ckeditor="1" style="margin-bottom:0;" rows="10"></textarea>
+                <span class="text-danger" asp-validation-for="Text" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">ثبت تیکت</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@model EditUserPanelViewModel
+@{
+    ViewData["Title"] = "EditUser";
+}
+
+<div class="row mb-5">
+    @await Component.InvokeAsync("UserSidebar")
+    <div class="col-xl-9 col-lg-8 col-md-7">
+        <div class="ui-box bg-white mb-5">
+            <div class="ui-box-title">اطلاعات شخصی</div>
+            <div class="ui-box-content">
+                <form asp-area="UserPanel" asp-controller="UserPanel" asp-action="EditUser" enctype="multipart/form-data">
+                    <div class="row">
+                        <input type="hidden" asp-for="ImageName" />
+                        <div class="form-element-row mb-3">
+                            <label class="label fs-7">نام و نام خانوادگی</label>
+                            <input asp-for="FullName" type="text" class="form-control" placeholder="نام و نام خانوادگی">
+                        </div>
+                        <div class="form-element-row mb-3">
+                            <label class="label fs-7">موبایل</label>
+                            <input asp-for="Mobile" type="text" class="form-control" placeholder="موبایل">
+                        </div>
+                        <div class="form-element-row mb-3">
+                            <img src="@(Model.ImageName != null ? PathExtension.UserAvatarThumb+Model.ImageName:PathExtension.DefaultAvatar)" alt="avatar" width="150" height="150">
+                        </div>
+                        <div class="form-element-row mb-3">
+                            <input class="form-control" asp-for="Avatar">
+                        </div>
+                        <button class="btn btn-info p-2 w-25" type="submit">
+                            ویرایش
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

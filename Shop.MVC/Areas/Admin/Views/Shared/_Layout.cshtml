@@ -1,0 +1,70 @@
+﻿
+<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 1.6.0
+Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB06R48S4
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>داشبورد</title>
+
+    <meta name="description" content="Dashboard" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <partial name="_HeaderReferences" />
+    @RenderSection("HeaderSection",false)
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loader"></div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <partial name="_Navbar" />
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <partial name="_Sidebar" />
+            <!-- /Page Sidebar -->
+            <!-- Chat Bar -->
+            <partial name="_Chatbar" />
+            <!-- /Chat Bar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                @RenderSection("Breadcrumb", true)
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
+                <partial name="_PageHeader" />
+                <!-- /Page Header -->
+                <!-- Page Body -->
+                <div class="page-body">
+                    @RenderBody()
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+
+    <partial name="_FooterReferences" />
+    @RenderSection("FooterSection",false)
+    <partial name="_SiteMessages" />
+
+</body>
+<!--  /Body -->
+</html>

@@ -1,0 +1,119 @@
+﻿@model FilterProductCategoryViewModel
+@{
+    ViewData["Title"] = "دسته بندی ها";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">دسته بندی ها</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            فیلتر
+        </div>
+        <form asp-area="Admin" asp-controller="Product" asp-action="Index" method="get">
+            <input type="hidden" asp-for="PageId" />
+            <div class="form-group">
+                <label>عنوان</label>
+                <input class="form-control" asp-for="Title">
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">فیلتر</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        @if (Model.ProductCategories != null && Model.ProductCategories.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>نام محصول</th>
+                        <th>زمان ایجاد</th>
+                        <th>زیر گروه ها</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var productCategory in Model.ProductCategories.Where(s => s.ParentId == null))
+                    {
+                        <tr>
+                            <td>@productCategory.Title</td>
+                            <td>@productCategory.CreateDate.ToShamsi()</td>
+                            <td>
+                                @if (Model.ProductCategories.Any(s => s.ParentId == productCategory.Id) && !productCategory.IsDelete)
+                                {
+                                    <ul>
+                                        @foreach (var subproductCategory in Model.ProductCategories.Where(s => s.ParentId == productCategory.Id))
+                                        {
+                                            <li>
+                                                <p>@subproductCategory.Title</p>
+                                                <div class="col">
+                                                    @if (!subproductCategory.IsDelete)
+                                                    {
+                                                        <a asp-area="Admin" asp-controller="ProductCategory"
+                                       asp-action="EditProductCategory" asp-route-productCategoryId="@subproductCategory.Id" class="btn btn-sm btn-info">ویرایش دسته بندی</a>
+                                                        <a asp-area="Admin" asp-controller="ProductCategory"
+                                       asp-action="DeleteProductCategory" asp-route-productCategoryId="@subproductCategory.Id" class="btn btn-sm btn-danger my-1">حذف دسته بندی</a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-danger">این دسته بندی حذف شده است</p>
+                                                    }
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td>
+                                @if (!productCategory.IsDelete)
+                                {
+                                    <a asp-area="Admin" asp-controller="ProductCategory"
+                           asp-action="EditProductCategory" asp-route-productCategoryId="@productCategory.Id" class="btn btn-info my-1">ویرایش دسته بندی</a>
+                                    <a asp-area="Admin" asp-controller="ProductCategory"
+                           asp-action="DeleteProductCategory" asp-route-productCategoryId="@productCategory.Id" class="btn btn-danger my-1">حذف دسته بندی</a>
+                                    <a asp-area="Admin" asp-controller="ProductCategory"
+                           asp-action="CreateProductCategory" asp-route-parentId="@productCategory.Id" class="btn btn-warning my-1">ایجاد زیر گروه</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">این دسته بندی حذف شده است</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer">
+            <partial name="_AdminPagingPartial" model="@Model.GetCurrentPaging()" />
+        </div>
+    </div>
+</div>
+

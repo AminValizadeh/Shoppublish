@@ -1,0 +1,148 @@
+﻿@model FilterTicketViewModel
+@{
+    ViewData["Title"] = "لیست تیکت ها";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">تیکت ها</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            فیلتر
+        </div>
+        <form asp-area="Admin" asp-controller="Ticket" asp-action="Index" method="get">
+            <input type="hidden" asp-for="PageId" />
+            <div class="form-group">
+                <label>عنوان</label>
+                <input class="form-control" asp-for="Title">
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    تیکت های
+                </label>
+                <select class="form-control" asp-for="FilterTicketState" asp-items="@(Html.GetEnumSelectList<FilterTicketState>())"></select>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    مرتب سازی بر اساس
+                </label>
+                <select class="form-control" asp-for="OrderBy" asp-items="@(Html.GetEnumSelectList<FilterTicketOrder>())"></select>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>بخش مورد نظر</label>
+                <select class="form-control" asp-for="TicketSection" asp-items="@(Html.GetEnumSelectList<TicketSection>())">
+                    <option value="null">
+                        همه بخش های مورد نظر
+                    </option>
+                </select>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    اولویت ها
+                </label>
+                <select class="form-control" asp-for="TicketPriority" asp-items="@(Html.GetEnumSelectList<TicketPriority>())">
+                    <option value="null">
+                        همه اولویت ها
+                    </option>
+                </select>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                    وضعیت تیکت
+                </label>
+                <select class="form-control" asp-for="TicketState" asp-items="@(Html.GetEnumSelectList<TicketState>())">
+                    <option value="null">
+                        همه وضعیت ها
+                    </option>
+                </select>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">فیلتر</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        @if (Model.Tickets != null && Model.Tickets.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>#</th>
+                        <th>موضوع</th>
+                        <th>بخش</th>
+                        <th>وضعیت</th>
+                        <th>زمان ایجاد</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.Tickets)
+                    {
+                        <tr>
+                            <td>@ticket.Id</td>
+                            <td>@ticket.Title</td>
+                            <td>@ticket.TicketSection.GetEnumName()</td>
+                            <td>
+                                <span class="badge rounded-pill
+                                                @(ticket.TicketState == TicketState.UnderProgress ? "bg-warning":
+                                                  ticket.TicketState == TicketState.Closed ? "bg-danger" : "bg-success")">
+                                    @ticket.TicketState.GetEnumName()
+                                </span>
+                            </td>
+                            <td>@ticket.CreateDate.ToShamsi()</td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="Ticket"
+                           asp-action="TicketDetail" asp-route-ticketId="@ticket.Id" class="btn btn-info my-1">جزئیات</a>
+                                @if (ticket.TicketState != TicketState.Closed)
+                                {
+                                    <a asp-area="Admin" asp-controller="Ticket"
+                                    asp-action="TicketClosed" asp-route-ticketId="@ticket.Id" class="btn btn-danger my-1">بستن تیکت</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer">
+            <partial name="_AdminPagingPartial" model="@Model.GetCurrentPaging()" />
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,57 @@
+﻿@model TicketDetailViewModel
+@{
+    ViewData["Title"] = "TicketDetail";
+}
+
+<div class="row mb-5">
+    @await Component.InvokeAsync("UserSidebar")
+    <div class="col-xl-9 col-lg-8 col-md-7">
+        <div class="ui-box bg-white mb-5">
+            <div class="ui-box-title">
+                موضوع تیکت : 
+                @Model.Ticket.Title
+            </div>
+            <div class="ui-box-content">
+                <!-- start of tickets -->
+                <div class="tickets">
+                    @if (Model.TicketMessages != null && Model.TicketMessages.Any())
+                    {
+                        foreach (var message in Model.TicketMessages)
+                        {
+                            <!-- start of ticket -->
+                            <div class="ticket 
+                                        @(message.SenderId == Model.Ticket.OwnerId ? "" : "reply") fa-num">
+                                <div class="mb-2">
+                                    <img src="@(message.Sender?.ImageName != null ? PathExtension.UserAvatarThumb+message.Sender.ImageName:PathExtension.DefaultAvatar)"
+                                         width="50"
+                                         height="50"
+                                         style="border-radius:30px;"
+                                         alt="Alternate Text">
+                                </div>
+                                <div class="text" style="width:fit-content">
+                                    @Html.Raw(message.Text)
+                                </div>
+                                <div class="date">
+                                    @message.CreateDate.ToStringShamsiDate() ساعت @message.CreateDate.ToString("HH:mm")
+                                </div>
+                            </div>
+                            <!-- end of ticket -->
+                        }
+                    }
+                </div>
+                <!-- end of tickets -->
+                <div class="border-bottom my-4"></div>
+                <div class="ui-box-title p-0 mb-4">
+                    ارسال پاسخ
+                </div>
+                <!-- start of add-ticket-form -->
+                @if(Model.Ticket.TicketState == TicketState.Answered)
+                {
+                    <partial name="_AnswerTicketPartial" model="@(new AnswerTicketViewModel{Id = Model.Ticket.Id})" />
+                }
+                <!-- end of add-ticket-form -->
+            </div>
+        </div>
+    </div>
+</div>
+

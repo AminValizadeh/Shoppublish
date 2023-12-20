@@ -1,0 +1,173 @@
+﻿@model CreateProductDiscountViewModel
+@{
+    ViewData["Title"] = "ایجاد کد تخفیف";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section headerSection {
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.min.css" />
+    <link rel="stylesheet" href="/lib/EasyAutocomplete/easy-autocomplete.themes.min.css" />
+}
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+    <script src="/lib/EasyAutocomplete/jquery.easy-autocomplete.min.js"></script>
+    <script>
+
+        var options = {
+            url: function (phrase) {
+                return "/admin/product-discount/product-autocomplete?title=" + phrase;
+            },
+            getValue: function (element) {
+                return element.title;
+            },
+            list: {
+                match: {
+                    enabled: true
+                },
+                onSelectItemEvent: function () {
+                    var value = $("#ProductTitle").getSelectedItemData().id;
+
+                    $("#ProductId").val(value).trigger("change");
+                }
+            },
+            theme: "square"
+        };
+
+        $("#ProductTitle").easyAutocomplete(options);
+    </script>
+    <script>
+
+        $("#StartTime").persianDatepicker({
+            months: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"],
+            dowTitle: ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج شنبه", "جمعه"],
+            shortDowTitle: ["ش", "ی", "د", "س", "چ", "پ", "ج"],
+            showGregorianDate: !1,
+            persianNumbers: !0,
+            formatDate: "YYYY/MM/DD",
+            selectedBefore: !1,
+            selectedDate: null,
+            startDate: null,
+            endDate: null,
+            prevArrow: '\u25c4',
+            nextArrow: '\u25ba',
+            theme: 'default',
+            alwaysShow: !1,
+            selectableYears: null,
+            selectableMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            cellWidth: 25, // by px
+            cellHeight: 20, // by px
+            fontSize: 13, // by px
+            isRTL: !1,
+            calendarPosition: {
+                x: 0,
+                y: 0,
+            },
+            onShow: function () { },
+            onHide: function () { },
+            onSelect: function () { },
+            onRender: function () { }
+        });
+        $("#EndTime").persianDatepicker({
+            months: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"],
+            dowTitle: ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج شنبه", "جمعه"],
+            shortDowTitle: ["ش", "ی", "د", "س", "چ", "پ", "ج"],
+            showGregorianDate: !1,
+            persianNumbers: !0,
+            formatDate: "YYYY/MM/DD",
+            selectedBefore: !1,
+            selectedDate: null,
+            startDate: null,
+            endDate: null,
+            prevArrow: '\u25c4',
+            nextArrow: '\u25ba',
+            theme: 'default',
+            alwaysShow: !1,
+            selectableYears: null,
+            selectableMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            cellWidth: 25, // by px
+            cellHeight: 20, // by px
+            fontSize: 13, // by px
+            isRTL: !1,
+            calendarPosition: {
+                x: 0,
+                y: 0,
+            },
+            onShow: function () { },
+            onHide: function () { },
+            onSelect: function () { },
+            onRender: function () { }
+        });
+
+    </script>
+
+}
+
+
+<div class="col-xs-8">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        <form asp-area="Admin" asp-controller="ProductDiscount" asp-action="CreateProductDiscount" method="post">
+            <input type="hidden" asp-for="ProductId" />
+            <div class="form-group">
+                <label>محصول مورد نظر</label>
+                <input class="form-control" id="ProductTitle">
+                <span class="text-danger" asp-validation-for="ProductId" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <label>کد تخفیف</label>
+                <input class="form-control" asp-for="DiscountCode">
+                <span class="text-danger" asp-validation-for="DiscountCode" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>درصد تخفیف</label>
+                <input class="form-control" asp-for="Percentage" />
+                <span class="text-danger" asp-validation-for="Percentage" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <div class="form-element-row mb-3">
+                <label>
+                   از تاریخ
+                </label>
+                <input asp-for="StartTime" class="form-control" type="text" />
+                <span class="text-danger" asp-validation-for="StartTime" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+
+            <div class="form-element-row mb-3">
+                <label>
+                    تا تاریخ
+                </label>
+                <input class="form-control" style="width: 100%" asp-for="EndTime" type="text" />
+                <span class="text-danger" asp-validation-for="EndTime" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">ثبت کد تخفیف</button>
+        </form>
+    </div>
+</div>
+

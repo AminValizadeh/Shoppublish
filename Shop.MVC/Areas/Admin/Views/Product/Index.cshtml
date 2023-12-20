@@ -1,0 +1,109 @@
+﻿@model FilterProductViewModel
+@{
+    ViewData["Title"] = "محصولات";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">محصول ها</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            فیلتر
+        </div>
+        <form asp-area="Admin" asp-controller="Product" asp-action="Index" method="get">
+            <input type="hidden" asp-for="PageId" />
+            <div class="form-group">
+                <label>عنوان</label>
+                <input class="form-control" asp-for="Title">
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">فیلتر</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header with-footer">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>عکس محصول</th>
+                        <th>نام محصول</th>
+                        <th>زمان ایجاد</th>
+                        <th>عملیات</th>
+                        <th>گالری محصول</th>
+                        <th>رنگ محصول</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@PathExtension.ProductImageThumb@product.ImageName" alt="@product.Title" />
+                            </td>
+                            <td>@product.Title</td>
+                            <td>@product.CreateDate.ToShamsi()</td>
+                            <td>
+                                @if (!product.IsDelete)
+                                {
+                                    <a asp-area="Admin" asp-controller="Product"
+                           asp-action="EditProduct" asp-route-productId="@product.Id" class="btn btn-info my-1">ویرایش محصول</a>
+                                    <a asp-area="Admin" asp-controller="Product"
+                           asp-action="DeleteProduct" asp-route-productId="@product.Id" class="btn btn-danger my-1">حذف محصول</a>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">این محصول حذف شده است</p>
+                                }
+                            </td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="ProductGallery"
+                           asp-action="Index" asp-route-productId="@product.Id" class="btn btn-info my-1">مشاهده گالری محصول</a>
+                                <a asp-area="Admin" asp-controller="ProductGallery"
+                           asp-action="CreateProductGallery" asp-route-productId="@product.Id" class="btn btn-warning my-1">اضافه کردن عکس به گالری</a>
+                            </td>
+                            <td>
+                                <a asp-area="Admin" asp-controller="ProductColor"
+                           asp-action="Index" asp-route-productId="@product.Id" class="btn btn-info my-1">مشاهده رنگ های محصول</a>
+                                <a asp-area="Admin" asp-controller="ProductColor"
+                           asp-action="CreateProductColor" asp-route-productId="@product.Id" class="btn btn-warning my-1">اضافه کردن رنگ به محصول</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <partial name="_NoItemFound" />
+        }
+        <div class="footer">
+            <partial name="_AdminPagingPartial" model="@Model.GetCurrentPaging()" />
+        </div>
+    </div>
+</div>
+
+
+

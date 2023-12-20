@@ -1,0 +1,74 @@
+﻿@model CreateProductGalleryViewModel
+@{
+    ViewData["Title"] = $"اضافه کردن عکس به گالری محصول : {Model.ProductTitle}";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">
+                @ViewData["Title"]
+            </li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#ProductImage").change(function () {
+            readURL(this);
+        });
+    </script>
+}
+
+<div class="col-xs-4">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            تصویر محصول
+        </div>
+        <img id="imgAvatar" src="@PathExtension.DefaultAvatar" width="150" height="150" />
+    </div>
+</div>
+
+
+<div class="col-xs-8">
+    <div class="well with-header">
+        <div class="header bordered-sky">
+            @ViewData["Title"]
+        </div>
+        <form asp-area="Admin" asp-controller="ProductGallery" asp-action="CreateProductGallery" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="ProductId" />
+            <div class="form-group">
+                <label>انتخاب تصویر</label>
+                <input class="form-control" asp-for="ProductImage">
+                <span class="text-danger" asp-validation-for="ProductImage" style="margin-bottom:10px; display:block;"></span>
+            </div>
+            <hr />
+
+            <button type="submit" class="btn btn-success btn-block">ثبت عکس در گالری</button>
+        </form>
+    </div>
+</div>
+
+
+

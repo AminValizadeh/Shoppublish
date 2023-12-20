@@ -1,0 +1,93 @@
+﻿@model TicketDetailViewModel
+@{
+    ViewData["Title"] = $"جزئیات تیکت : {Model.Ticket.Title}";
+}
+
+@section Breadcrumb {
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="#">خانه</a>
+            </li>
+            <li class="active">@ViewData["Title"]</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+}
+
+@section HeaderSection{
+    <style>
+        .ticket-content {
+            background-color: #e7e7e7;
+            padding: 20px;
+            margin: 15px;
+            overflow-x:auto;
+        }
+
+        .reply {
+            direction:ltr;
+        }
+    </style>
+}
+
+@section FooterSection {
+    <partial name="_JqueryValidators" />
+}
+
+<div class="col-xs-12">
+    <div class="widget flat radius-bordered">
+        <div class="widget-header bg-blue">
+            <span class="widget-caption">کادر پیام ها</span>
+        </div>
+        <div class="widget-body">
+            <div id="registration-form">
+                <div class="tickets">
+                    @if (Model.TicketMessages != null && Model.TicketMessages.Any())
+                    {
+                        foreach (var message in Model.TicketMessages)
+                        {
+                            <!-- start of ticket -->
+                            
+                            <div class="ticket
+                                        @(message.SenderId == Model.Ticket.OwnerId ? "reply" : "")">
+                                <div class="mb-2">
+                                    <img src="@(message.Sender?.ImageName != null ? PathExtension.UserAvatarThumb+message.Sender.ImageName:PathExtension.DefaultAvatar)"
+                                         width="50"
+                                         height="50"
+                                         style="border-radius:30px;"
+                                         alt="Alternate Text">
+                                </div>
+                                <div class="ticket-content">
+                                    <div class="text" style="width:fit-content">
+                                        @Html.Raw(message.Text)
+                                    </div>
+                                    <div class="date">
+                                        @message.CreateDate.ToStringShamsiDate() ساعت @message.CreateDate.ToString("HH:mm")
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end of ticket -->
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-12">
+    <div class="widget flat radius-bordered">
+        <div class="widget-header bg-blue">
+            <span class="widget-caption">کادر ارسال جواب</span>
+        </div>
+        <div class="widget-body">
+            <div id="registration-form">
+                <!-- start of add-ticket-form -->
+                <partial name="_AnswerTicketPartial" model="@(new AnswerTicketViewModel{Id = Model.Ticket.Id})" />
+                <!-- end of add-ticket-form -->
+            </div>
+        </div>
+    </div>
+</div>

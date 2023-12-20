@@ -1,0 +1,12 @@
+/* Write your code here */
+/*# sourceMappingURL=custom.css.map */
+
+ul#messages > li.left {
+    direction: ltr;
+    background-color: azure !important;
+    text-align:start;
+}
+
+.ck-content {
+    height: 300px;
+}
