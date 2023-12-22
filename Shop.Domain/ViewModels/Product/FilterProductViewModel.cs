@@ -43,5 +43,10 @@ namespace Shop.Domain.ViewModels.Product
         }
 
         #endregion
+
+        public enum filterresult
+        { 
+        NotFound
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace Shop.Data.Repository
 
             var expensiveProduct = await query.OrderByDescending(s => s.Price).FirstOrDefaultAsync();
             filter.FilterMaxPrice = expensiveProduct.Price;
-
+           
             #region filter
 
             if (!string.IsNullOrEmpty(filter.Title))

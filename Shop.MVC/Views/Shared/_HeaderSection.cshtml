@@ -11,6 +11,8 @@
            style="background-image: url(/Template/theme-assets/images/banner/017.jpg);height: 60px;"></a>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+                                   
+
     <!-- end banner -->
     <!-- start of page-header-top -->
     <div class="page-header--top">
@@ -85,7 +87,8 @@
                             <span class="logo-text">بررسی،انتخاب و خرید آنلاین</span>
                         </a>
                     </div>
-                    <partial name="_SearchHeader" />
+            
+                   
                 </div>
                 <div class="user-options" style="width:300px;">
                     @await Component.InvokeAsync("CardProfile")
@@ -112,9 +115,16 @@
                                         <ul class="mega-menu">
                                             @foreach (var subCategory in categories.Where(s=> s.ParentId == category.Id))
                                             {
+                                                @*   
+                                                  <li class="item-lead"><a asp-area="" asp-controller="Product" asp-action="Products" asp-route-FilterByCategory="@category.UrlName">@category.Title</a></li> *@
                                                 <li>
-                                                    <a href="#">@subCategory.Title</a>
-                                                </li>
+<li>
+                                                        <a asp-controller="Product"
+                                               asp-action="Index"
+                                               asp-route-CategoryId="@subCategory.Id"
+                                                           class="current">@subCategory.Title</a>
+                                                    </li>                                                </li>
+
                                             }
                                         </ul>
                                     </li>
